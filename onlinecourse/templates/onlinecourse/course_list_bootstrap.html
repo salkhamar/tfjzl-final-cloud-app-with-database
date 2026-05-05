@@ -48,11 +48,16 @@
                               <h5 class="card-title">{{ course.name }}, <span class="text-success">
                                   {{ course.total_enrollment}} enrolled</span></h5>
                             <p class="card-text">{{ course.description}}</p>
-                            <form action="{% url 'onlinecourse:enroll' course.id %}" method="post">
-                                  {% csrf_token %}
-                                  <input class="btn btn-primary"  type="submit"
-                                         value="{% if course.is_enrolled %}Enter{% else %}Enroll{% endif %} ">
-                            </form>
+                            {% if course.is_enrolled %}
+                                <a class="btn btn-primary" href="{% url 'onlinecourse:course_details' course.id %}">
+                                    Enter
+                                </a>
+                            {% else %}
+                                <form action="{% url 'onlinecourse:enroll' course.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input class="btn btn-primary" type="submit" value="Enroll">
+                                </form>
+                            {% endif %}
                           </div>
                         </div>
                 {% endfor %}
